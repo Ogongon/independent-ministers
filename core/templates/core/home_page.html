@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block content %}
+<div class="hero-section">
+    <div id="map"></div>
+
+    {% if active_video %}
+    <div class="video-quadrant">
+        <h3 style="margin-top:0; font-size:1rem; margin-bottom:10px;">{{ active_video.title }}</h3>
+        <h3 class="video-title">
+            <svg style="width:24px; height:24px; vertical-align:middle; margin-right:8px; fill:var(--ocean-deep);" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L4 18H20L12 2ZM4 20L2 22H22L20 20H4Z" /> <path d="M2 22C2 22 5 24 12 24C19 24 22 22 22 22" fill="none" stroke="#004d40" stroke-width="2"/> </svg>
+            Weekly Update: {{ active_video.title }}
+        </h3>
+        {% if active_video.get_youtube_id %}
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                <iframe width="100%" height="100%" 
+                    src="https://www.youtube.com/embed/{{ active_video.get_youtube_id }}?rel=0" 
+                    style="position: absolute; top: 0; left: 0; border: 0;"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        {% else %}
+            <p style="color:red;">Error loading video.</p>
+        {% endif %}
+        <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">{{ active_video.created_at|date:"M d, Y" }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    var map = L.map('map').setView([-3.8, 39.7], 9);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+
+    fetch('/api/sites/')
+        .then(response => response.json())
+        .then(data => {
+            data.sites.forEach(site => {
+                var popup = `<b>${site.name}</b><br>${site.description}`;
+                if(site.photo_url) popup += `<br><img src="${site.photo_url}" style="width:100%; margin-top:5px;">`;
+                L.marker([site.lat, site.lng]).addTo(map).bindPopup(popup);
+            });
+        });
+</script>
+{% endblock %}

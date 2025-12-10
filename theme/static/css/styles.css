@@ -1,0 +1,322 @@
+/* === THEME: LAMU & LIGHT === */
+:root {
+    /* Colors inspired by the Kenyan Coast */
+    --ocean-deep: #004d40;   /* Deep Teal */
+    --ocean-light: #00695c;  /* Lighter Teal */
+    --lamu-stone: #fdfbf7;   /* Warm White */
+    --sand-gold: #d4af37;    /* Metallic Gold */
+    --mangrove: #3e2723;     /* Dark Wood */
+    --sunset: #ff7043;       /* Accent Orange */
+    
+    /* Shadows & Glass */
+    --shadow-soft: 0 10px 30px -10px rgba(0, 77, 64, 0.2);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    
+    /* Typography */
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--lamu-stone);
+    color: var(--mangrove);
+    font-family: var(--font-body);
+    margin: 0;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* === ANIMATIONS === */
+@keyframes tideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+/* === NAVIGATION (Sticky & Glass) === */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--sand-gold);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: var(--shadow-soft);
+}
+
+.logo a {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--ocean-deep);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Custom Anchor Icon for Logo */
+.logo a::before {
+    content: '⚓'; /* Fallback */
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>');
+    display: inline-block;
+    height: 24px;
+    width: 24px;
+}
+
+.nav-links { display: flex; gap: 30px; }
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--ocean-deep);
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--sand-gold);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+.btn {
+    background: var(--ocean-deep);
+    color: white !important;
+    padding: 10px 25px;
+    border-radius: 50px; /* Pill shape */
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn:hover {
+    background: var(--ocean-light);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,77,64,0.3);
+}
+
+.hero-section {
+    position: relative;
+    height: 88vh;
+    width: 100%;
+    background: linear-gradient(to bottom, rgba(253, 251, 247, 0.8), rgba(255,255,255,0)); 
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    filter: saturate(1.1) contrast(1.1);
+}
+
+/* === THE VIDEO CARD === */
+.video-quadrant {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 400px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: tideIn 1s ease-out;
+}
+
+.video-quadrant::before {
+    /* Top accent line (Gold) */
+    content: '';
+    position: absolute;
+    top: 0; left: 20px; right: 20px;
+    height: 3px;
+    background: var(--sand-gold);
+}
+
+.video-title {
+    font-family: var(--font-heading);
+    color: var(--ocean-deep);
+    font-size: 1.1rem;
+    margin-top: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* === CARDS (Blog & Scriptures) === */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.scripture-card, .blog-post-card {
+    background: white;
+    border-radius: 12px;
+    padding: 0;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    animation: tideIn 0.8s ease-out;
+}
+
+.scripture-card:hover, .blog-post-card:hover {
+    transform: translateY(-5px); /* Lift effect */
+}
+
+.card-header {
+    background: var(--ocean-deep);
+    color: white;
+    padding: 15px 30px;
+    font-family: var(--font-heading);
+    letter-spacing: 1px;
+    background-image: linear-gradient(45deg, var(--ocean-deep) 25%, transparent 25%, transparent 50%, var(--ocean-deep) 50%, var(--ocean-deep) 75%, transparent 75%, transparent);
+    background-size: 40px 40px; /* Subtle texture */
+    opacity: 0.95;
+}
+
+.verse-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.15rem;
+    color: #444;
+    font-style: italic;
+    line-height: 1.8;
+}
+
+.analysis-box {
+    background: #fff8e1; /* Pale Gold */
+    border-left: 4px solid var(--sand-gold);
+    color: var(--mangrove);
+}
+
+/* === FOOTER (The Deep) === */
+footer {
+    background: var(--ocean-deep);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* SVG Wave at top of footer */
+footer::before {
+    content: '';
+    position: absolute;
+    top: -50px; left: 0; right: 0;
+    height: 50px;
+    background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%23004d40" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* === GLOBAL PAGE ELEMENTS === */
+
+/* The Main Content Container */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    animation: tideIn 0.8s ease-out;
+}
+
+/* Page Titles (The "Cinzel" Font) */
+h1 {
+    font-family: var(--font-heading);
+    color: var(--ocean-deep);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+/* Add a subtle "Underline" that looks like a wave or horizon */
+h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--sand-gold);
+    margin-top: 10px;
+}
+
+/* === RICH TEXT (Blog & Standard Pages) === */
+.rich-text {
+    font-family: 'Georgia', serif; /* Classic serif for reading */
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.8;
+}
+
+.rich-text p { margin-bottom: 1.5rem; }
+
+.rich-text h2, .rich-text h3 {
+    font-family: var(--font-heading);
+    color: var(--ocean-deep);
+    margin-top: 2rem;
+}
+
+.rich-text blockquote {
+    border-left: 4px solid var(--sand-gold);
+    margin: 20px 0;
+    padding: 10px 20px;
+    background: rgba(212, 175, 55, 0.1); /* Gold tint */
+    font-style: italic;
+    color: var(--mangrove);
+}
+
+.rich-text img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+    margin: 20px 0;
+}
+
+/* === ANCIENT TEXTS (Split Screen) === */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--sand-gold);
+    border-radius: 0 0 8px 8px; /* Rounded bottom only */
+}
+
+.column { padding: 30px; background: white; }
+.column.kjv { border-right: 1px solid rgba(0,0,0,0.1); }
+.column-title {
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--ocean-light);
+    margin-bottom: 15px;
+    display: block;
+    font-weight: 700;
+}
+
+/* Mobile Split Screen */
+@media (max-width: 768px) {
+    .comparison-grid { grid-template-columns: 1fr; }
+    .column.kjv { border-right: none; border-bottom: 1px solid #eee; }
+}

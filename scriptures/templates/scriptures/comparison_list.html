@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    
+    <div style="text-align: center; margin-bottom: 50px;">
+        <h1>Ancient Texts Archive</h1>
+        <p style="max-width: 600px; margin: 0 auto; color: #666;">
+            Tracing the divergent paths of history by comparing the Ethiopian Canon with the Western King James tradition.
+        </p>
+    </div>
+
+    {% for item in comparisons %}
+        <div class="scripture-card">
+            <div class="card-header">
+                <span style="opacity: 0.7; font-size: 0.9em; text-transform: uppercase;">Scripture Comparison</span><br>
+                {{ item.book_title }} {{ item.chapter }}:{{ item.verse }}
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="column kjv">
+                    <span class="column-title">King James Version (KJV)</span>
+                    <div class="verse-text">
+                        "{{ item.kjv_text|default:"(Not included in this canon)" }}"
+                    </div>
+                </div>
+
+                <div class="column ethiopian" style="background: #fdfbf7;">
+                    <span class="column-title" style="color: var(--ocean-deep);">Ethiopian / Gnostic Text</span>
+                    <div class="verse-text" style="color: var(--mangrove); font-weight: 500;">
+                        "{{ item.ethiopian_text }}"
+                    </div>
+                </div>
+            </div>
+
+            {% if item.analysis %}
+                <div class="analysis-box" style="padding: 20px;">
+                    <strong style="color: var(--ocean-deep); font-family: var(--font-heading);">Ministry Insight:</strong> 
+                    <span style="font-size: 0.95rem;">{{ item.analysis }}</span>
+                </div>
+            {% endif %}
+        </div>
+    {% empty %}
+        <div style="text-align: center; padding: 50px;">
+            <p>No textual comparisons found.</p>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
