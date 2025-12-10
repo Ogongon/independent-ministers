@@ -2,10 +2,24 @@ import os
 from pathlib import Path
 import dj_database_url
 
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-change-me-later' # Change for production!
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-build-key-placeholder')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+production_db = os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_URL")
+
+if production_db:
+    DATABASES['default'] = dj_database_url.parse(production_db)
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -91,9 +105,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "spiritual_maps/static",
 ]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
